@@ -56,7 +56,10 @@ router.post('/register', async (req, res) => {
     });
   }
   catch (err) {
-    res.status(500).send();
+    res.status(500).json({
+      success: false,
+      error_message: 'An error has occurred.'
+    });
   }
 });
 
