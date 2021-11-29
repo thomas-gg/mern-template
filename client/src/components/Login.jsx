@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Card, Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -56,6 +57,13 @@ class Login extends Component {
                 </Button>
               </Form>
             </Card.Body>
+            <Card.Footer>
+              Not already have an account?{" "}
+              <Link to="/register" class="text-decoration-none">
+                Register one
+              </Link>{" "}
+              !
+            </Card.Footer>
           </Card>
         </div>
       </Container>
