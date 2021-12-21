@@ -3,6 +3,7 @@ const logger = require('morgan');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
+app.use(cookieParser());
 
 // Start the app
 const PORT = process.env.PORT || 5000;
