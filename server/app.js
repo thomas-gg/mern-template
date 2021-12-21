@@ -21,6 +21,7 @@ app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // Setup routers
 app.use('/', require('./routes/users'));
+app.use('/', require('./routes/exercises'));
 
 // Connect to mongoDB
 mongoose.connect(process.env.DB_URL, {
