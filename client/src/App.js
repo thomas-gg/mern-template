@@ -62,7 +62,7 @@ class App extends Component {
     axios
       .post(BaseURL + "/login", {
         username: username,
-        password: hashedPassword,
+        password: password,
       })
       .then((response) => {
         if (response.data.success === true) {
