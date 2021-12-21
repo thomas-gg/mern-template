@@ -7,8 +7,8 @@ const Schema = mongoose.Schema;
 const exerciseSchema = new Schema({
     user: { type: ObjectId, required: true },
     exerciseName: { type: String, required: true },
-    exercisePR: { type: Number, date: { type: Date }},
-    exercisePRHistory: [{ type: Number, date: { type: Date } }],
+    exercisePR: { value: Number, date: Date},
+    exercisePRHistory: [{ value: Number, date: Date }],
     exerciseGoal: { type: Number }
 }, {
     timestamps: true
