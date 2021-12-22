@@ -60,7 +60,8 @@ router.post('/register', async (req, res) => {
   catch (err) {
     res.status(500).json({
       success: false,
-      error_message: 'An error has occurred.'
+      error_message: 'An error has occurred.',
+      user: null
     });
   }
 });
@@ -103,12 +104,33 @@ router.post('/login', async (req, res) => {
     }
 
     // Send response
-    res.cookie("accessToken", accessToken, {
+    res.cookie('accessToken', accessToken, {
       httpOnly: true
     }).json({
       success: true,
       error_message: null,
       user: resUser
+    });
+  }
+  catch (err) {
+    res.status(500).json({
+      success: false,
+      error_message: 'An error has occurred.',
+      user: null
+    });
+  }
+});
+
+// User logout
+router.post('/logout', async (req, res) => {
+  try {
+    // Send empty accessToken
+    res.cookie('accessToken', '', {
+      httpOnly: true
+    }).json({
+      success: true,
+      error_message: null,
+      user: null
     });
   }
   catch (err) {
