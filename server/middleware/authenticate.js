@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config({path:'../.env'});
 
+// Verify a user's accessToken
 function verifyToken(req, res, next) {
     try {
         const accessToken = req.cookies.accessToken;
