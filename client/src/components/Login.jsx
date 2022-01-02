@@ -58,8 +58,8 @@ class Login extends Component {
               </Form>
             </Card.Body>
             <Card.Footer>
-              Not already have an account?{" "}
-              <Link to="/register" class="text-decoration-none">
+              Don't already have an account?{" "}
+              <Link to="/users/register" className="text-decoration-none">
                 Register one
               </Link>{" "}
               !

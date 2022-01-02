@@ -12,6 +12,8 @@ import Register from "./components/Register";
 import React, { Component } from "react";
 import bcrypt from "bcryptjs";
 import axios from "axios";
+import { Exercisepicker } from "./components/exercisepicker/Exercisepicker";
+import { Trackerchart } from "./components/charts/Trackerchart";
 
 const salt = bcrypt.genSaltSync(10);
 const BaseURL = "http://localhost:5000";
@@ -28,6 +30,7 @@ class App extends Component {
         // Other fields maybe applied
       },
       ErrorMessage: "",
+      CurrentExercise : ""
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
@@ -36,7 +39,7 @@ class App extends Component {
     // Encrypt the password and send it to server
     const hashedPassword = bcrypt.hashSync(password, salt);
     axios
-      .post(BaseURL + "/register", {
+      .post(BaseURL + "/users/register", {
         email: email,
         username: username,
         name: name,
@@ -51,7 +54,7 @@ class App extends Component {
           });
         } else {
           this.setState({
-            ErrorMessage: "The username has already be taken!",
+            ErrorMessage: "The username has already been taken!",
           });
         }
       });
@@ -60,7 +63,7 @@ class App extends Component {
   handleLogin = (username, password) => {
     const hashedPassword = bcrypt.hashSync(password, salt);
     axios
-      .post(BaseURL + "/login", {
+      .post(BaseURL + "/users/login", {
         username: username,
         password: password,
       })
@@ -79,6 +82,10 @@ class App extends Component {
       });
   };
 
+  handleSelect = (e) => {
+    this.setState({CurrentExercise: e});
+  }
+
   render() {
     const loggedIn = this.state.IsLoggedIn;
     return (
@@ -86,8 +93,10 @@ class App extends Component {
         <Switch>
           <Route exact path="/">
             <Home />
+            <Exercisepicker handleSelect={this.handleSelect}/>
+            <Trackerchart CurrentUser = {this.state.User} CurrentExercise = {this.state.CurrentExercise}/>
           </Route>
-          <Route exact path="/login">
+          <Route exact path="/users/login">
             {loggedIn ? (
               <Redirect to="/" />
             ) : (
@@ -98,7 +107,7 @@ class App extends Component {
               />
             )}
           </Route>
-          <Route exact path="/register">
+          <Route exact path="/users/register">
             {loggedIn ? (
               <Redirect to="/" />
             ) : (

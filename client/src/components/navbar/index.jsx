@@ -21,8 +21,11 @@ export const MyNav = () => {
             LitFit-The Littest Way To Get Fit
           </Navbar.Brand>
           <Nav>
-            <Nav.Link as={Link} to="/login">
+            <Nav.Link as={Link} to="/users/login">
               Login
+            </Nav.Link>
+            <Nav.Link as={Link} to="/users/logout">
+              Logout
             </Nav.Link>
           </Nav>
         </Container>
