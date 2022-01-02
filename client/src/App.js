@@ -30,7 +30,8 @@ class App extends Component {
         // Other fields maybe applied
       },
       ErrorMessage: "",
-      CurrentExercise : ""
+      CurrentExercise : "",
+      accessToken : ""
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
@@ -69,10 +70,13 @@ class App extends Component {
       })
       .then((response) => {
         if (response.data.success === true) {
-          const user = response.data.user;
+          const user = response.data.user
+          const token = response.data.accessToken
+          console.log(response)
           this.setState({
             IsLoggedIn: true,
             User: user,
+            accessToken: token
           });
         } else {
           this.setState({
@@ -94,7 +98,7 @@ class App extends Component {
           <Route exact path="/">
             <Home />
             <Exercisepicker handleSelect={this.handleSelect}/>
-            <Trackerchart CurrentUser = {this.state.User} CurrentExercise = {this.state.CurrentExercise}/>
+            <Trackerchart CurrentUser = {this.state.User} CurrentExercise = {this.state.CurrentExercise} accessToken = {this.state.accessToken} Onselect = {this.handleSelect}/>
           </Route>
           <Route exact path="/users/login">
             {loggedIn ? (

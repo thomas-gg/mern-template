@@ -4,7 +4,7 @@ const dotenv = require('dotenv').config({path:'../.env'});
 // Verify a user's accessToken
 function verifyToken(req, res, next) {
     try {
-        const accessToken = req.cookies.accessToken;
+        const accessToken = req.headers.accesstoken;
 
         if (accessToken == null) {
             return res.sendStatus(401);
