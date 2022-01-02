@@ -63,6 +63,8 @@ class App extends Component {
       .post(BaseURL + "/login", {
         username: username,
         password: password,
+      }, {
+        withCredentials: true // httpOnly cookie implementation
       })
       .then((response) => {
         if (response.data.success === true) {
