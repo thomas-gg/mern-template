@@ -17,8 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 // httpOnly cookie implementation
 app.use(cors({
   origin:['http://localhost:3000', 'http://localhost:5000'],
-  methods:['GET','POST'],
-  credentials: true // enable set cookie
+  credentials: true
 }));
 app.use(cookieParser());
 
@@ -27,7 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 // Setup routers
-app.use('/', require('./routes/users'));
+app.use('/users', require('./routes/users'));
 app.use('/exercises', require('./routes/exercises'));
 
 // Connect to mongoDB
