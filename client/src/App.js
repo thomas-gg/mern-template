@@ -14,10 +14,12 @@ import bcrypt from "bcryptjs";
 import axios from "axios";
 import { Exercisepicker } from "./components/exercisepicker/Exercisepicker";
 import { Trackerchart } from "./components/charts/Trackerchart";
+import { ExerciseHistory } from "./components/ExerciseHistory/ExerciseHistory";
+import { Navbar } from "react-bootstrap";
+import { MyNav } from "./components/navbar";
 
 const salt = bcrypt.genSaltSync(10);
 const BaseURL = "http://localhost:5000";
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -30,8 +32,27 @@ class App extends Component {
         // Other fields maybe applied
       },
       ErrorMessage: "",
-      CurrentExercise : "",
-      accessToken : ""
+      CurrentExercise: "",
+      accessToken: "",
+      graphData: {
+        labels: ["test1", "test2", "test3", "4"],
+        datasets: [
+          {
+            label: "History",
+            data: [20, 200, 140],
+            fill: true,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(75,192,192,1)",
+          },
+          {
+            label: "Goal",
+            data: [500, 500, 500, 500],
+            fill: true,
+            backgroundColor: "rgba(75,192,192,0.2)",
+            borderColor: "rgba(75,192,192,1)",
+          },
+        ],
+      },
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
@@ -69,14 +90,14 @@ class App extends Component {
         password: password,
       })
       .then((response) => {
+        console.log(response);
         if (response.data.success === true) {
-          const user = response.data.user
-          const token = response.data.accessToken
-          console.log(response)
+          const user = response.data.user;
+          const token = response.data.accessToken;
           this.setState({
             IsLoggedIn: true,
             User: user,
-            accessToken: token
+            accessToken: token,
           });
         } else {
           this.setState({
@@ -87,8 +108,85 @@ class App extends Component {
   };
 
   handleSelect = (e) => {
-    this.setState({CurrentExercise: e});
-  }
+    this.setState({ CurrentExercise: e });
+    this.getData(e, this.state.accessToken);
+  };
+
+  formatDate = (date) => {
+    var options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Date(date).toLocaleDateString("en-US", options);
+  };
+  getData = (exercise, token) => {
+    axios
+      .get("http://localhost:5000/exercises/log", {
+        headers: {
+          accessToken: token,
+        },
+      })
+      .then((response) => {
+        const data = {
+          labels: [],
+          datasets: [
+            {
+              label: "History",
+              data: [],
+              fill: true,
+              backgroundColor: "rgba(75,192,192,0.2)",
+              borderColor: "rgba(75,192,192,1)",
+            },
+            {
+              label: "Goal",
+              data: [],
+              fill: true,
+              backgroundColor: "rgba(75,192,192,0.2)",
+              borderColor: "rgba(75,192,192,1)",
+            },
+          ],
+        };
+        data.datasets[0].data = [];
+        data.datasets[1].data = [];
+        response.data.forEach((element) => {
+          //let exercise = element.json()
+          var options = {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          };
+          if (element.exerciseName === exercise) {
+            //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
+            element.exercisePRHistory.forEach((pr) => {
+              data.labels.push(this.formatDate(pr.date.toString()));
+              data.datasets[0].data.push(pr.value);
+              data.datasets[1].data.push(element.exerciseGoal);
+            });
+            data.datasets[0].data.push(element.exercisePR.value);
+            data.labels.push(
+              this.formatDate(element.exercisePR.date.toString())
+            );
+            data.datasets[1].data.push(element.exerciseGoal);
+            this.setState({ graphData: data });
+            console.log("marker2");
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  logOut = () => {
+    this.setState({
+      IsLoggedIn: false,
+      User: {},
+      accessToken: "",
+    });
+  };
 
   render() {
     const loggedIn = this.state.IsLoggedIn;
@@ -96,9 +194,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Home />
-            <Exercisepicker handleSelect={this.handleSelect}/>
-            <Trackerchart CurrentUser = {this.state.User} CurrentExercise = {this.state.CurrentExercise} accessToken = {this.state.accessToken} Onselect = {this.handleSelect}/>
+            <Home loggedIn={this.state.IsLoggedIn} logOut={this.logOut} />
           </Route>
           <Route exact path="/users/login">
             {loggedIn ? (
@@ -109,6 +205,19 @@ class App extends Component {
                 errorMessage={this.state.ErrorMessage}
                 user={this.state.User}
               />
+            )}
+          </Route>
+          <Route exact path="/exercises/log">
+            {loggedIn ? (
+              <>
+                <MyNav loggedIn={this.state.IsLoggedIn} logOut={this.logOut} />
+                <ExerciseHistory
+                  handleSelect={this.handleSelect}
+                  graphData={this.state.graphData}
+                />
+              </>
+            ) : (
+              <Redirect to="/" />
             )}
           </Route>
           <Route exact path="/users/register">

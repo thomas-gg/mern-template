@@ -4,10 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { MyCarousel } from "../carousel/carousel";
 import "./home.css";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <div className="test">
-      <MyNav />
+      <MyNav loggedIn = {props.loggedIn} logOut = {props.logOut}/>
       <div className="App">
         <header className="App-header">
           <h1 className="slogan">
