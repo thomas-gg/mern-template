@@ -4,14 +4,15 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import logo from "./logo.png";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
-export const MyNav = () => {
+export const MyNav = (props) => {
   return (
     <div className="MyNav">
       <Navbar bg="dark" variant="dark" sticky="top">
         <Container>
-          <Navbar.Brand href="#home">
-            <img
+          <Navbar.Brand>
+            <Nav.Link style = {{color : "white"}} as = {Link} to = "/"><img
               alt=""
               src={logo}
               width="40"
@@ -19,11 +20,18 @@ export const MyNav = () => {
               className="d-inline-block align-top"
             />{" "}
             LitFit-The Littest Way To Get Fit
+            </Nav.Link>
           </Navbar.Brand>
           <Nav>
-            <Nav.Link as={Link} to="/login">
+            {!props.loggedIn && <Nav.Link as={Link} to="/users/login">
               Login
-            </Nav.Link>
+            </Nav.Link>}
+            {props.loggedIn && <Nav.Link as={Link} to="/exercises/log">
+              Exercise Log
+            </Nav.Link>}
+            {props.loggedIn && <Nav.Link as={Link} to="/" onClick={props.logOut}>
+              Logout
+            </Nav.Link>}
           </Nav>
         </Container>
       </Navbar>
