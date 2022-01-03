@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
 dotenv.config();
 
 // Setup express server
@@ -14,12 +13,12 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-// httpOnly cookie implementation
-app.use(cors({
-  origin:['http://localhost:3000', 'http://localhost:5000'],
-  credentials: true
-}));
 app.use(cookieParser());
+
+app.use(cors({
+  origin: ['http://localhost:3000', 'http://localhost:5000'],
+  credentials: true,
+}));
 
 // Start the app
 const PORT = process.env.PORT || 5000;
