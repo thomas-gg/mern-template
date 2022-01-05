@@ -122,9 +122,9 @@ class App extends Component {
     axios
       .post(BaseURL + "/log/update", {
         user: this.state.User,
-        excerciseName: this.state.CurrentExercise,
-        excerciseHistory: excerciseList,
-        excerciseGoal: this.excerciseGoal,
+        exerciseName: this.state.CurrentExercise,
+        exerciseHistory: excerciseList,
+        exerciseGoal: this.excerciseGoal,
       })
       .then((response) => {
         console.log(response.data);
