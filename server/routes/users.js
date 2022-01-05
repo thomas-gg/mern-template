@@ -1,22 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config({path:'../.env'});
+const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv").config({ path: "../.env" });
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
+router.get("/", function (req, res, next) {
   const user = {
-    name: 'ACM Hack',
-    email: 'hack@acmucsd.org'
-  }
+    name: "ACM Hack",
+    email: "hack@acmucsd.org",
+  };
   res.status(200).json({ user });
   res.send("Got get request.");
 });
 
 // User registration
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const { email, username, name, password } = req.body;
 
@@ -25,8 +25,8 @@ router.post('/register', async (req, res) => {
     if (existingUserUsername) {
       return res.status(400).json({
         success: false,
-        error_message: 'An account with the username already exists.',
-        user: existingUserUsername
+        error_message: "An account with the username already exists.",
+        user: existingUserUsername,
       });
     }
 
@@ -35,8 +35,8 @@ router.post('/register', async (req, res) => {
     if (existingUserEmail) {
       return res.status(400).json({
         success: false,
-        error_message: 'An account with the email already exists.',
-        user: existingUserEmail
+        error_message: "An account with the email already exists.",
+        user: existingUserEmail,
       });
     }
 
@@ -45,7 +45,7 @@ router.post('/register', async (req, res) => {
       email,
       username,
       name,
-      password
+      password,
     });
 
     const savedUser = await newUser.save();
@@ -54,30 +54,29 @@ router.post('/register', async (req, res) => {
     return res.status(200).json({
       success: true,
       error_message: null,
-      user: newUser
+      user: newUser,
     });
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json({
       success: false,
-      error_message: 'An error has occurred.',
-      user: null
+      error_message: "An error has occurred.",
+      user: null,
     });
   }
 });
 
 // User login
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
     // Check if user exists
-    let existingUser =  await User.findOne({ username });
+    let existingUser = await User.findOne({ username });
     if (!existingUser) {
       return res.status(401).json({
         success: false,
         error_message: "User not found.",
-        user: req.body
+        user: req.body,
       });
     }
 
@@ -87,53 +86,59 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({
         success: false,
         error_message: "Wrong password.",
-        user: existingUser
-      })
+        user: existingUser,
+      });
     }
 
     // create accessToken
     const userID = { id: existingUser._id };
-    const accessToken = jwt.sign(userID, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "60m" });
+    const accessToken = jwt.sign(userID, process.env.ACCESS_TOKEN_SECRET, {
+      expiresIn: "60m",
+    });
 
     // Response user
     const resUser = {
       _id: existingUser._id,
       email: existingUser.email,
       username: existingUser.username,
-      name: existingUser.name
-    }
+      name: existingUser.name,
+    };
 
     // Send response
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true
-    }).json({
-      success: true,
-      error_message: null,
-      user: resUser
-    });
-  }
-  catch (err) {
+    res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        error_message: null,
+        user: resUser,
+        accessToken: accessToken,
+      });
+  } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
-      error_message: 'An error has occurred.',
-      user: null
+      error_message: "An error has occurred.",
+      user: null,
     });
   }
 });
 
 // User logout
-router.post('/logout', async (req, res) => {
+router.post("/logout", async (req, res) => {
   try {
     // Send empty accessToken
-    res.cookie('accessToken', '', {
-      httpOnly: true
-    }).json({
-      success: true,
-      error_message: null,
-      user: null
-    });
-  }
-  catch (err) {
+    res
+      .cookie("accessToken", "", {
+        httpOnly: true,
+      })
+      .json({
+        success: true,
+        error_message: null,
+        user: null,
+      });
+  } catch (err) {
     res.status(500).send();
   }
 });
