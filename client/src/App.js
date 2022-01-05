@@ -20,7 +20,7 @@ import { MyNav } from "./components/navbar";
 import { ExcerciseHistoryList } from "./components/ExerciseHistory/ExcerciseHistoryList";
 
 const salt = bcrypt.genSaltSync(10);
-const BaseURL = "http://localhost:5001";
+const BaseURL = "http://localhost:5000";
 class App extends Component {
   constructor(props) {
     super(props);
