@@ -5,16 +5,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config({ path: "../.env" });
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  const user = {
-    name: "ACM Hack",
-    email: "hack@acmucsd.org",
-  };
-  res.status(200).json({ user });
-  res.send("Got get request.");
-});
-
 // User registration
 router.post("/register", async (req, res) => {
   try {
