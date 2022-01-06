@@ -52,5 +52,50 @@ router.post('/log', authenticate, async (req, res) => {
 });
 
 // TODO: update document route
+router.post('/log/update', authenticate, async (req, res) => {
+    try {
+        // Front end gives exercise name
+        const { exerciseName, exercisePR, exerciseHistory, exerciseGoal } = req.body;
+
+        // Check for PR in history and update PR
+
+        // Add counter if history is updated
+
+        // Save the new data
+    }
+    catch (err) {
+
+    }
+});
+
+// Delete a user's exercise
+router.delete('/log/delete', authenticate, async (req, res) => {
+    try {
+        const { exerciseName } = req.body;
+
+        const deletedExercise = await Exercise.findOneAndDelete({ user: req.user, exerciseName });
+
+        if (!deletedExercise) {
+            return res.status(400).json({
+                success: false,
+                errorMessage: "Exercise does not exist!",
+                exercise: null
+            });
+        }
+        
+        res.json({
+            success: true,
+            errorMessage: null,
+            exercise: deletedExercise
+        });
+    }
+    catch (err) {
+        res.status(400).json({
+            success: false,
+            errorMessage: "An error has occurred",
+            exercise: null
+        })
+    }
+});
 
 module.exports = router;
