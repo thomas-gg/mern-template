@@ -31,14 +31,14 @@ router.get('/log', authenticate, async (req, res) => {
 // Save a new exercise
 router.post('/log', authenticate, async (req, res) => {
     try {
-        const { exerciseName, exercisePR, exercisePRHistory, exerciseGoal } = req.body;
+        const { exerciseName, exercisePR, exerciseHistory, exerciseGoal } = req.body;
 
         // Create a new exercise
         const newExercise = new Exercise({
             user: req.user,
             exerciseName,
             exercisePR,
-            exercisePRHistory,
+            exerciseHistory,
             exerciseGoal
         });
 
