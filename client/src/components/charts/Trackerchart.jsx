@@ -1,7 +1,7 @@
-import Cookies from 'js-cookie'
-import { Line as ChartJS } from 'chart.js/auto';
+import Cookies from "js-cookie";
+import { Line as ChartJS } from "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import axios from 'axios';
+import axios from "axios";
 import React, { Component } from "react";
 
 // export const Trackerchart = (props) => {
@@ -15,7 +15,7 @@ import React, { Component } from "react";
 
 export class Trackerchart extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
   }
 
   // componentDidUpdate(){
@@ -23,10 +23,9 @@ export class Trackerchart extends React.Component {
   //   this.getData(this.props.CurrentUser, this.props.CurrentExercise, this.props.accessToken)
   // }
 
-
   render() {
-    console.log('marker1')
-    console.log(this.props.graphData)
+    // console.log("marker1");
+    // console.log(this.props.graphData);
     return (
       <div className="chart">
         <Line data={this.props.graphData} />

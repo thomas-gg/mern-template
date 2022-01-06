@@ -17,6 +17,7 @@ import { Trackerchart } from "./components/charts/Trackerchart";
 import { ExerciseHistory } from "./components/ExerciseHistory/ExerciseHistory";
 import { Navbar } from "react-bootstrap";
 import { MyNav } from "./components/navbar";
+import { ExcerciseHistoryList } from "./components/ExerciseHistory/ExcerciseHistoryList";
 
 const salt = bcrypt.genSaltSync(10);
 const BaseURL = "http://localhost:5000";
@@ -35,24 +36,26 @@ class App extends Component {
       CurrentExercise: "",
       accessToken: "",
       graphData: {
-        labels: ["test1", "test2", "test3", "4"],
+        labels: [],
         datasets: [
           {
             label: "History",
-            data: [20, 200, 140],
+            data: [],
             fill: true,
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(75,192,192,1)",
           },
           {
             label: "Goal",
-            data: [500, 500, 500, 500],
+            data: [],
             fill: true,
             backgroundColor: "rgba(75,192,192,0.2)",
             borderColor: "rgba(75,192,192,1)",
           },
         ],
       },
+      excerciseList: [],
+      excerciseGoal: 0,
     };
     this.handleRegister = this.handleRegister.bind(this);
   }
@@ -90,7 +93,7 @@ class App extends Component {
         password: password,
       })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         if (response.data.success === true) {
           const user = response.data.user;
           const token = response.data.accessToken;
@@ -110,6 +113,30 @@ class App extends Component {
   handleSelect = (e) => {
     this.setState({ CurrentExercise: e });
     this.getData(e, this.state.accessToken);
+  };
+
+  //handle of updatigng excercise List
+  handleUpdate = (excerciseList) => {
+    console.log(excerciseList);
+
+    axios
+      .post(BaseURL + "/log/update", {
+        user: this.state.User,
+        exerciseName: this.state.CurrentExercise,
+        exerciseHistory: excerciseList,
+        exerciseGoal: this.excerciseGoal,
+      })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.success === true) {
+          this.getData(this.CurrentExercise, this.state.accessToken);
+        }
+      });
+  };
+
+  handleChangeGoal = (goal) => {
+    this.state.CurrentExcerciseGoal = goal;
+    this.handleUpdate(this.state.excerciseList);
   };
 
   formatDate = (date) => {
@@ -148,8 +175,13 @@ class App extends Component {
             },
           ],
         };
+        let newExcerciseList = [];
         data.datasets[0].data = [];
         data.datasets[1].data = [];
+        // console.log("reach here?");
+        // console.log(response.data);
+        // console.log(exercise);
+        let newExcerciseGoal = 0;
         response.data.forEach((element) => {
           //let exercise = element.json()
           var options = {
@@ -158,21 +190,31 @@ class App extends Component {
             month: "long",
             day: "numeric",
           };
+
+          newExcerciseGoal = element.excerciseGoal;
+
           if (element.exerciseName === exercise) {
+            // console.log("reach here?");
             //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
             element.exercisePRHistory.forEach((pr) => {
+              //   console.log(pr.date);
               data.labels.push(this.formatDate(pr.date.toString()));
               data.datasets[0].data.push(pr.value);
               data.datasets[1].data.push(element.exerciseGoal);
+              newExcerciseList.push(pr);
             });
             data.datasets[0].data.push(element.exercisePR.value);
             data.labels.push(
               this.formatDate(element.exercisePR.date.toString())
             );
             data.datasets[1].data.push(element.exerciseGoal);
-            this.setState({ graphData: data });
-            console.log("marker2");
+            // console.log("marker2");
           }
+        });
+        this.setState({
+          graphData: data,
+          excerciseList: newExcerciseList,
+          excerciseGoal: newExcerciseGoal,
         });
       })
       .catch((error) => {
@@ -190,6 +232,7 @@ class App extends Component {
 
   render() {
     const loggedIn = this.state.IsLoggedIn;
+    // console.log(loggedIn);
     return (
       <Router>
         <Switch>
@@ -213,7 +256,10 @@ class App extends Component {
                 <MyNav loggedIn={this.state.IsLoggedIn} logOut={this.logOut} />
                 <ExerciseHistory
                   handleSelect={this.handleSelect}
+                  excerciseList={this.state.excerciseList}
                   graphData={this.state.graphData}
+                  onUpdate={this.handleUpdate}
+                  onChangeGoal={this.handleChangeGoal}
                 />
               </>
             ) : (
