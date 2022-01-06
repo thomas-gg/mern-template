@@ -4,17 +4,20 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
 dotenv.config();
-
+// const corsOptions = {
+//   credentials: true,
+//   ///..other options
+// };
 // Setup express server
 const app = express();
 
 // Middleware
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+//app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Start the app
