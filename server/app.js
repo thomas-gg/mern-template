@@ -17,7 +17,6 @@ app.use(cors({
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//app.use(cors(corsOptions));
 app.use(cookieParser());
 
 // Start the app
@@ -30,9 +29,9 @@ app.use('/exercises', require('./routes/exercises'));
 
 // Connect to mongoDB
 mongoose.connect(process.env.DB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true }).then(() => {
-  console.log('Connected to MongoDB database');
+  useNewUrlParser: true,
+  useUnifiedTopology: true }).then(() => {
+console.log('Connected to MongoDB database');
 });
 
 module.exports = app;
