@@ -127,7 +127,7 @@ class App extends Component {
         user: this.state.User,
         exerciseName: this.state.CurrentExercise,
         exerciseHistory: excerciseList,
-        exerciseGoal: this.excerciseGoal,
+        exerciseGoal: this.state.excerciseGoal,
       })
       .then((response) => {
         console.log(response.data);
@@ -194,7 +194,7 @@ class App extends Component {
             day: "numeric",
           };
 
-          newExcerciseGoal = element.excerciseGoal;
+          newExcerciseGoal = element.exerciseGoal;
 
           if (element.exerciseName === exercise) {
             // console.log("reach here?");
