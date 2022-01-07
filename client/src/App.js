@@ -123,7 +123,7 @@ class App extends Component {
     console.log(excerciseList);
 
     axios
-      .post(BaseURL + "/log/update", {
+      .post(BaseURL + "/exercises/log/update", {
         user: this.state.User,
         exerciseName: this.state.CurrentExercise,
         exerciseHistory: excerciseList,
