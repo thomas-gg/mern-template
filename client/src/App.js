@@ -138,7 +138,8 @@ class App extends Component {
   };
 
   handleChangeGoal = (goal) => {
-    this.state.CurrentExcerciseGoal = goal;
+    //this.state.CurrentExcerciseGoal = goal;
+    this.state.excerciseGoal = goal;
     this.handleUpdate(this.state.excerciseList);
   };
 
