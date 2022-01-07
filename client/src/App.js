@@ -207,7 +207,7 @@ class App extends Component {
             //data.datasets[0].data.push(element.exercisePR.value);
             //data.labels.push(
               //this.formatDate(element.exercisePR.date.toString())
-            );
+            //);
             //data.datasets[1].data.push(element.exerciseGoal);
             // console.log("marker2");
           }
