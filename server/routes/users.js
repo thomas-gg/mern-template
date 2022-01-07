@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv").config({ path: "../.env" });
 
 // User registration
-router.post("/register", async (req, res) => {
+router.post('/register', async (req, res) => {
   try {
     const { email, username, name, password } = req.body;
 
@@ -15,8 +15,8 @@ router.post("/register", async (req, res) => {
     if (existingUserUsername) {
       return res.status(400).json({
         success: false,
-        error_message: "An account with the username already exists.",
-        user: existingUserUsername,
+        error_message: 'An account with the username already exists.',
+        user: existingUserUsername
       });
     }
 
@@ -25,8 +25,8 @@ router.post("/register", async (req, res) => {
     if (existingUserEmail) {
       return res.status(400).json({
         success: false,
-        error_message: "An account with the email already exists.",
-        user: existingUserEmail,
+        error_message: 'An account with the email already exists.',
+        user: existingUserEmail
       });
     }
 
@@ -35,22 +35,38 @@ router.post("/register", async (req, res) => {
       email,
       username,
       name,
-      password,
+      password
     });
 
     const savedUser = await newUser.save();
 
-    // Return with status 200
-    return res.status(200).json({
+    // jwt to login
+    // create accessToken
+    const userID = { id: savedUser._id };
+    const accessToken = jwt.sign(userID, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "60m" });
+    
+    // Response user
+    const resUser = {
+      _id: savedUser._id,
+      email: savedUser.email,
+      username: savedUser.username,
+      name: savedUser.name
+    }
+    
+    // Send response
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true
+    }).json({
       success: true,
       error_message: null,
-      user: newUser,
+      user: resUser
     });
-  } catch (err) {
+  }
+  catch (err) {
     res.status(500).json({
       success: false,
-      error_message: "An error has occurred.",
-      user: null,
+      error_message: 'An error has occurred.',
+      user: null
     });
   }
 });

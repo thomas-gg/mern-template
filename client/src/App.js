@@ -19,6 +19,9 @@ import { Navbar } from "react-bootstrap";
 import { MyNav } from "./components/navbar";
 import { ExcerciseHistoryList } from "./components/ExerciseHistory/ExcerciseHistoryList";
 
+// VERY IMPORTANT FOR COOKIES
+axios.defaults.withCredentials = true;
+
 const salt = bcrypt.genSaltSync(10);
 const BaseURL = "http://localhost:5000";
 class App extends Component {
@@ -120,7 +123,7 @@ class App extends Component {
     console.log(excerciseList);
 
     axios
-      .post(BaseURL + "/log/update", {
+      .post(BaseURL + "/exercises/log/update", {
         user: this.state.User,
         exerciseName: this.state.CurrentExercise,
         exerciseHistory: excerciseList,
