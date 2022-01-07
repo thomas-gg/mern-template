@@ -196,18 +196,19 @@ class App extends Component {
           if (element.exerciseName === exercise) {
             // console.log("reach here?");
             //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
-            element.exercisePRHistory.forEach((pr) => {
+            element.exerciseHistory.forEach((pr) => {
               //   console.log(pr.date);
               data.labels.push(this.formatDate(pr.date.toString()));
               data.datasets[0].data.push(pr.value);
               data.datasets[1].data.push(element.exerciseGoal);
               newExcerciseList.push(pr);
             });
-            data.datasets[0].data.push(element.exercisePR.value);
-            data.labels.push(
-              this.formatDate(element.exercisePR.date.toString())
+            //pushing pr at end of list, instead print it somewhere else?
+            //data.datasets[0].data.push(element.exercisePR.value);
+            //data.labels.push(
+              //this.formatDate(element.exercisePR.date.toString())
             );
-            data.datasets[1].data.push(element.exerciseGoal);
+            //data.datasets[1].data.push(element.exerciseGoal);
             // console.log("marker2");
           }
         });
