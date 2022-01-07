@@ -54,17 +54,53 @@ router.post('/log', authenticate, async (req, res) => {
 // TODO: update document route
 router.post('/log/update', authenticate, async (req, res) => {
     try {
-        // Front end gives exercise name
-        const { exerciseName, exercisePR, exerciseHistory, exerciseGoal } = req.body;
+        const { user, exerciseName, exerciseHistory, exerciseGoal } = req.body;
+
+        // Sort exerciseHistory by date
+        exerciseHistory.sort(function(a, b) {
+            var dateA = new Date(a.date);
+            var dateB = new Date(b.date);
+            return dateA - dateB;
+        });
 
         // Check for PR in history and update PR
+        let exercisePR = {
+            value: 0,
+            date: Date
+        };
 
-        // Add counter if history is updated
+        exerciseHistory.forEach((exercise) => {
+            if (exercise.value > exercisePR.value) {
+                exercisePR = exercise;
+            }
+        });
+
+        const newExercise = {
+            user: req.user,
+            exerciseName,
+            exercisePR,
+            exerciseHistory,
+            exerciseGoal
+        }
+
+        const query = {
+            user: req.user,
+            exerciseName: exerciseName
+        }
 
         // Save the new data
+        const savedExercise = await Exercise.replaceOne(query, newExercise);
+
+        res.json({
+            success: true,
+            updatedExercise: newExercise
+        });
     }
     catch (err) {
-
+        console.log(err);
+        res.status(500).json({
+            success: false
+        });
     }
 });
 
