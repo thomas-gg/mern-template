@@ -66,6 +66,7 @@ router.post('/log/update', authenticate, async (req, res) => {
         // Check for PR in history and update PR
         let exercisePR = {
             value: 0,
+            reps: 0,
             date: Date
         };
 
