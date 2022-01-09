@@ -25,6 +25,7 @@ export const ExerciseHistory = (props) => {
   const handleSubmitGoal = (event) => {
     event.preventDefault();
     props.onChangeGoal(event.target[0].value);
+    setShowGoal(false);
   };
   const handleAdd = () => {
     console.log("???");

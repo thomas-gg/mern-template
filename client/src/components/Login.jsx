@@ -18,8 +18,7 @@ class Login extends Component {
     this.setState({ hasChanged: true });
   }
   render() {
-    const pwNotMatch =
-      this.props.errorMessage === "Wrong username or password!";
+    const pwNotMatch = this.props.errorMessage !== "";
     return (
       <Container>
         <div className="d-flex justify-content-center" style={{ padding: 120 }}>
