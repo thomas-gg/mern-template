@@ -132,7 +132,7 @@ class App extends Component {
       .then((response) => {
         console.log(response.data);
         if (response.data.success === true) {
-          this.getData(this.CurrentExercise, this.state.accessToken);
+          this.handleSelect(this.state.CurrentExercise);
         }
       });
   };
@@ -210,7 +210,7 @@ class App extends Component {
             //pushing pr at end of list, instead print it somewhere else?
             //data.datasets[0].data.push(element.exercisePR.value);
             //data.labels.push(
-              //this.formatDate(element.exercisePR.date.toString())
+            //this.formatDate(element.exercisePR.date.toString())
             //);
             //data.datasets[1].data.push(element.exerciseGoal);
             // console.log("marker2");
