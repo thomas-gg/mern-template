@@ -81,15 +81,30 @@ router.post('/log/update', authenticate, async (req, res) => {
             exercisePR,
             exerciseHistory,
             exerciseGoal
-        }
+        };
 
         const query = {
             user: req.user,
             exerciseName: exerciseName
         }
 
-        // Save the new data
-        const savedExercise = await Exercise.replaceOne(query, newExercise);
+        // Check if new exercise
+        const existingExercise = await Exercise.findOne(query);
+        if (!existingExercise) {
+            const createExercise = new Exercise({
+                user: req.user,
+                exerciseName,
+                exercisePR,
+                exerciseHistory,
+                exerciseGoal
+            });
+
+            const savedExercise = await createExercise.save();
+        }
+        else {
+            // Save the new data
+            const savedExercise = await Exercise.replaceOne(query, newExercise);
+        }
 
         res.json({
             success: true,
