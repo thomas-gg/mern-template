@@ -19,6 +19,7 @@ export const ExerciseHistory = (props) => {
     newExcerciseList.push({
       date: event.target[0].value,
       value: event.target[1].value,
+      reps: event.target[2].value,
     });
     props.onUpdate(newExcerciseList);
   };
@@ -53,12 +54,16 @@ export const ExerciseHistory = (props) => {
           onUpdate={props.onUpdate}
         />
       </Row>
-      <Button variant="primary" onClick={handleAdd}>
-        Add Excercise{" "}
-      </Button>{" "}
-      <Button variant="warning" onClick={handleGoalChange}>
-        Change Goals
-      </Button>
+      {props.exerciseSelected && (
+        <Button variant="primary" onClick={handleAdd}>
+          Add Excercise{" "}
+        </Button>
+      )}{" "}
+      {props.exerciseSelected && (
+        <Button variant="warning" onClick={handleGoalChange}>
+          Change Goals
+        </Button>
+      )}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add an Excercise</Modal.Title>
@@ -69,6 +74,8 @@ export const ExerciseHistory = (props) => {
               <Form.Label>Date:</Form.Label>
               <Form.Control type="date" />
               <Form.Label>Value:</Form.Label>
+              <Form.Control type="text" />
+              <Form.Label>Reps:</Form.Label>
               <Form.Control type="text" />
             </Row>
           </Modal.Body>
