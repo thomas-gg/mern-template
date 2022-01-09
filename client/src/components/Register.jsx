@@ -50,8 +50,9 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.errorMessage);
     const UserNameDuplicate =
-      this.props.errorMessage === "The username has already be taken!";
+      this.props.errorMessage === "The username has already been taken!";
     return (
       <Container>
         <div className="d-flex justify-content-center" style={{ padding: 120 }}>

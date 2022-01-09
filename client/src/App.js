@@ -80,11 +80,13 @@ class App extends Component {
             IsLoggedIn: true,
             User: user,
           });
-        } else {
-          this.setState({
-            ErrorMessage: "The username has already been taken!",
-          });
         }
+      })
+      .catch((error) => {
+        console.log("???");
+        this.setState({
+          ErrorMessage: "The username has already been taken!",
+        });
       });
   };
 
@@ -105,11 +107,13 @@ class App extends Component {
             User: user,
             accessToken: token,
           });
-        } else {
-          this.setState({
-            ErrorMessage: "Wrong username or password!",
-          });
         }
+      })
+      .catch((error) => {
+        console.log(error.response.data.error_message);
+        this.setState({
+          ErrorMessage: error.response.data.error_message,
+        });
       });
   };
 
