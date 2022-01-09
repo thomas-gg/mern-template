@@ -284,6 +284,7 @@ class App extends Component {
                   graphData={this.state.graphData}
                   onUpdate={this.handleUpdate}
                   onChangeGoal={this.handleChangeGoal}
+                  exerciseSelected={this.state.CurrentExercise !== ""}
                 />
               </>
             ) : (

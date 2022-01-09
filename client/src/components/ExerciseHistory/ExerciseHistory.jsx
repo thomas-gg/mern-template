@@ -54,12 +54,16 @@ export const ExerciseHistory = (props) => {
           onUpdate={props.onUpdate}
         />
       </Row>
-      <Button variant="primary" onClick={handleAdd}>
-        Add Excercise{" "}
-      </Button>{" "}
-      <Button variant="warning" onClick={handleGoalChange}>
-        Change Goals
-      </Button>
+      {props.exerciseSelected && (
+        <Button variant="primary" onClick={handleAdd}>
+          Add Excercise{" "}
+        </Button>
+      )}{" "}
+      {props.exerciseSelected && (
+        <Button variant="warning" onClick={handleGoalChange}>
+          Change Goals
+        </Button>
+      )}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add an Excercise</Modal.Title>
