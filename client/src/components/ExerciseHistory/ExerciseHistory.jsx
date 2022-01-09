@@ -19,6 +19,7 @@ export const ExerciseHistory = (props) => {
     newExcerciseList.push({
       date: event.target[0].value,
       value: event.target[1].value,
+      reps: event.target[2].value,
     });
     props.onUpdate(newExcerciseList);
   };
@@ -69,6 +70,8 @@ export const ExerciseHistory = (props) => {
               <Form.Label>Date:</Form.Label>
               <Form.Control type="date" />
               <Form.Label>Value:</Form.Label>
+              <Form.Control type="text" />
+              <Form.Label>Reps:</Form.Label>
               <Form.Control type="text" />
             </Row>
           </Modal.Body>

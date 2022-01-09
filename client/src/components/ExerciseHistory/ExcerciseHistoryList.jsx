@@ -38,6 +38,7 @@ export const ExcerciseHistoryList = (props) => {
     let updatedList = props.excerciseList;
     updatedList[current].value = event.target[1].value;
     updatedList[current].date = event.target[0].value;
+    updatedList[current].reps = event.target[2].value;
     props.onUpdate(updatedList);
     setShow(false);
   };
@@ -52,7 +53,8 @@ export const ExcerciseHistoryList = (props) => {
   const listItems = props.excerciseList.map((excercise, index) => (
     <ListGroup.Item>
       <Button variant="link" onClick={() => handleShow(index)}>
-        {formatDate(excercise.date)}: {excercise.value}
+        {formatDate(excercise.date)}, Best result: {excercise.value}, Reps:{" "}
+        {excercise.reps}
       </Button>
     </ListGroup.Item>
   ));
@@ -77,6 +79,11 @@ export const ExcerciseHistoryList = (props) => {
                 <Form.Control
                   type="text"
                   defaultValue={props.excerciseList[current].value}
+                />
+                <Form.Label>Reps:</Form.Label>
+                <Form.Control
+                  type="text"
+                  defaultValue={props.excerciseList[current].reps}
                 />
               </Row>
             </Modal.Body>

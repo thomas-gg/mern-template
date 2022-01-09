@@ -90,7 +90,6 @@ class App extends Component {
         }
       })
       .catch((error) => {
-        console.log("???");
         this.setState({
           ErrorMessage: "The username has already been taken!",
         });
