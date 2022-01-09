@@ -134,9 +134,7 @@ exports.logoutUser = async (req, res) => {
   try {
     // Send empty accessToken
     res
-      .cookie("accessToken", "", {
-        httpOnly: true,
-      })
+      .clearCookie('accessToken')
       .json({
         success: true,
         error_message: null,
