@@ -45,15 +45,22 @@ class App extends Component {
             label: "History",
             data: [],
             fill: true,
-            backgroundColor: "rgba(75,192,192,0.2)",
+            backgroundColor: "rgba(75,192,192,0)",
             borderColor: "rgba(75,192,192,1)",
           },
           {
             label: "Goal",
             data: [],
             fill: true,
-            backgroundColor: "rgba(75,192,192,0.2)",
-            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: "rgba(75,192,192,0)",
+            borderColor: "rgba(255,70,70,1)",
+          },
+          {
+            label: "Reps",
+            data: [],
+            fill: true,
+            backgroundColor: "rgba(75,192,192,0)",
+            borderColor: "rgba(70,255,70,1)",
           },
         ],
       },
@@ -171,21 +178,29 @@ class App extends Component {
               label: "History",
               data: [],
               fill: true,
-              backgroundColor: "rgba(75,192,192,0.2)",
+              backgroundColor: "rgba(75,192,192,0)",
               borderColor: "rgba(75,192,192,1)",
             },
             {
               label: "Goal",
               data: [],
               fill: true,
-              backgroundColor: "rgba(75,192,192,0.2)",
-              borderColor: "rgba(75,192,192,1)",
+              backgroundColor: "rgba(75,192,192,0)",
+              borderColor: "rgba(255,70,70,1)",
+            },
+            {
+              label: "Reps",
+              data: [],
+              fill: true,
+              backgroundColor: "rgba(75,192,192,0)",
+              borderColor: "rgba(70,255,70,1)",
             },
           ],
         };
         let newExcerciseList = [];
         data.datasets[0].data = [];
         data.datasets[1].data = [];
+        data.datasets[2].data = [];
         // console.log("reach here?");
         // console.log(response.data);
         // console.log(exercise);
@@ -209,6 +224,7 @@ class App extends Component {
               data.labels.push(this.formatDate(pr.date.toString()));
               data.datasets[0].data.push(pr.value);
               data.datasets[1].data.push(element.exerciseGoal);
+              data.datasets[2].data.push(pr.reps);
               newExcerciseList.push(pr);
             });
             //pushing pr at end of list, instead print it somewhere else?
