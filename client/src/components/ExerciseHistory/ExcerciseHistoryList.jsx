@@ -49,6 +49,7 @@ export const ExcerciseHistoryList = (props) => {
     let updateList = props.excerciseList;
     updateList.splice(current, 1);
     props.onUpdate(updateList);
+    setCurrent(0);
     setShow(false);
   };
 

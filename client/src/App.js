@@ -265,7 +265,8 @@ class App extends Component {
               data.datasets[0].data.push(pr.value);
               data.datasets[1].data.push(element.exerciseGoal);
               data.datasets[2].data.push(pr.reps);
-              let predictedRM = pr.value/(1.0278-(.0278*pr.reps))
+              //let predictedRM = pr.value/(1.0278-(.0278*pr.reps))
+              let predictedRM = pr.value *Math.pow(pr.reps, .1)
               data.datasets[3].data.push(predictedRM)
               newExcerciseList.push(pr);
             });
