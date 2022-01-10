@@ -49,7 +49,8 @@ export const ExerciseHistory = (props) => {
           {props.exerciseSelected && (
             <Alert variant= 'primary' >
               Current Exercise: {props.CurrentExercise} <br></br>
-              1 Rep Max: {props.max} <br></br>
+              Max Weight: {props.max} <br></br>
+              Reps: {props.maxreps}<br></br>
               Goal: {props.exerciseGoal}
             </Alert>
       )}{" "}

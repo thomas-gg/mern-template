@@ -42,6 +42,7 @@ class App extends Component {
       graphData: {
         labels: [],
         max : "",
+        maxreps : "",
         datasets: [
           {
             label: "Weight",
@@ -198,6 +199,7 @@ class App extends Component {
         const data = {
           labels: [],
           max : "",
+          maxreps : "",
           datasets: [
             {
               label: "Weight",
@@ -235,6 +237,7 @@ class App extends Component {
         data.datasets[2].data = [];
         data.datasets[3].data = [];
         this.state.max = "";
+        this.state.maxreps = "";
         // console.log("reach here?");
         // console.log(response.data);
         // console.log(exercise);
@@ -252,6 +255,7 @@ class App extends Component {
           if (element.exerciseName === exercise) {
             newExcerciseGoal = element.exerciseGoal;
             this.state.max = element.exercisePR.value
+            this.state.maxreps = element.exercisePR.reps
             // console.log("reach here?");
             //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
             element.exerciseHistory.forEach((pr) => {
@@ -322,6 +326,7 @@ class App extends Component {
                   exerciseSelected={this.state.CurrentExercise !== ""}
                   CurrentExercise = {this.state.CurrentExercise}
                   max = {this.state.max}
+                  maxreps = {this.state.maxreps}
                   exerciseGoal = {this.state.excerciseGoal}
                 />
               </>
