@@ -8,8 +8,6 @@ export const Exercisepicker = (props) => {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item eventKey="Run">Run</Dropdown.Item>
-                <Dropdown.Item eventKey="Swim">Swim</Dropdown.Item>
                 <Dropdown.Item eventKey="Deadlift">Deadlift</Dropdown.Item>
                 <Dropdown.Item eventKey="Squat">Squat</Dropdown.Item>
                 <Dropdown.Item eventKey="Bench">Bench</Dropdown.Item>

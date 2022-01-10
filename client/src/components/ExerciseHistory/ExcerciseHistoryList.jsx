@@ -49,6 +49,7 @@ export const ExcerciseHistoryList = (props) => {
     let updateList = props.excerciseList;
     updateList.splice(current, 1);
     props.onUpdate(updateList);
+    setCurrent(0);
     setShow(false);
   };
 
@@ -67,7 +68,7 @@ export const ExcerciseHistoryList = (props) => {
       {props.excerciseList.length && (
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Edit This Excercise</Modal.Title>
+            <Modal.Title>Edit This Exercise</Modal.Title>
           </Modal.Header>{" "}
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
