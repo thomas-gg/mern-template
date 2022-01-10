@@ -18,6 +18,7 @@ import { ExerciseHistory } from "./components/ExerciseHistory/ExerciseHistory";
 import { Navbar } from "react-bootstrap";
 import { MyNav } from "./components/navbar";
 import { ExcerciseHistoryList } from "./components/ExerciseHistory/ExcerciseHistoryList";
+import { converter } from "js-cookie";
 
 // VERY IMPORTANT FOR COOKIES
 axios.defaults.withCredentials = true;
@@ -156,7 +157,7 @@ class App extends Component {
         }
       })
       .catch((error) => {
-        if (error.response && error.response.status == 401) {
+        if (error.response && error.response.status == 403) {
           this.logOut();
         }
       });
@@ -258,6 +259,9 @@ class App extends Component {
         });
       })
       .catch((error) => {
+        if (error.response && error.response.status == 403) {
+          this.logOut();
+        }
         console.log(error);
       });
   };
