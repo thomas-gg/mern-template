@@ -124,7 +124,7 @@ class App extends Component {
   };
 
   logOut = () => {
-    axios.post(BaseURL + "/users/logout", {})
+    axios.post(BaseURL + "/users/logout", {});
     this.setState({
       IsLoggedIn: false,
       User: {},
@@ -153,6 +153,11 @@ class App extends Component {
         console.log(response.data);
         if (response.data.success === true) {
           this.handleSelect(this.state.CurrentExercise);
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status == 401) {
+          this.logOut();
         }
       });
   };
