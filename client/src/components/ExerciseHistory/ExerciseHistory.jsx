@@ -45,8 +45,15 @@ export const ExerciseHistory = (props) => {
     <Container>
       <Row>
         <Col>
-          <Exercisepicker handleSelect={props.handleSelect} />
-          <Trackerchart graphData={props.graphData} />
+          <Exercisepicker handleSelect={props.handleSelect} exerciseSelected= {props.exerciseSelected} />
+          {props.exerciseSelected && (
+            <Alert variant= 'primary' >
+              Current Exercise: {props.CurrentExercise} <br></br>
+              1 Rep Max: {props.max} <br></br>
+              Goal: {props.exerciseGoal}
+            </Alert>
+      )}{" "}
+          <Trackerchart graphData={props.graphData} exerciseSelected = {props.exerciseSelected}/>
         </Col>
       </Row>
       <Row style={{ margin: 20 }}>
