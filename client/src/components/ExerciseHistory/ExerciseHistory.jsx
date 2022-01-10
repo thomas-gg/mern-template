@@ -64,7 +64,7 @@ export const ExerciseHistory = (props) => {
         />
       </Row>
       {!props.exerciseSelected && (
-        <Alert variant="info">Please selected an exercise! </Alert>
+        <Alert variant="info">Please select an exercise!</Alert>
       )}
       {props.exerciseSelected && (
         <Button variant="primary" onClick={handleAdd}>
