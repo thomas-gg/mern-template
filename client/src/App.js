@@ -123,6 +123,15 @@ class App extends Component {
       });
   };
 
+  logOut = () => {
+    axios.post(BaseURL + "/users/logout", {})
+    this.setState({
+      IsLoggedIn: false,
+      User: {},
+      accessToken: "",
+    });
+  };
+
   handleSelect = (e) => {
     this.setState({ CurrentExercise: e });
     this.getData(e, this.state.accessToken);
@@ -246,14 +255,6 @@ class App extends Component {
       .catch((error) => {
         console.log(error);
       });
-  };
-
-  logOut = () => {
-    this.setState({
-      IsLoggedIn: false,
-      User: {},
-      accessToken: "",
-    });
   };
 
   render() {
