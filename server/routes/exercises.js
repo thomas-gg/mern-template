@@ -74,6 +74,9 @@ router.post('/log/update', authenticate, async (req, res) => {
             if (exercise.value > exercisePR.value) {
                 exercisePR = exercise;
             }
+            else if (exercise.value == exercisePR.value && exercise.reps > exercisePR.reps) {
+                exercisePR = exercise;
+            }
         });
 
         const newExercise = {
