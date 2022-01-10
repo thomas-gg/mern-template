@@ -9,6 +9,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
+import Alert from "react-bootstrap/Alert";
 export const ExerciseHistory = (props) => {
   const [show, setShow] = useState(false);
   const [showGoal, setShowGoal] = useState(false);
@@ -54,6 +55,9 @@ export const ExerciseHistory = (props) => {
           onUpdate={props.onUpdate}
         />
       </Row>
+      {!props.exerciseSelected && (
+        <Alert variant="info">Please selected an exercise! </Alert>
+      )}
       {props.exerciseSelected && (
         <Button variant="primary" onClick={handleAdd}>
           Add Excercise{" "}

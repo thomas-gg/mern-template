@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
 function formatDate(date) {
+  console.log(date);
   var options = {
     weekday: "long",
     year: "numeric",
@@ -37,7 +38,7 @@ export const ExcerciseHistoryList = (props) => {
     // console.log("call update");
     let updatedList = props.excerciseList;
     updatedList[current].value = event.target[1].value;
-    updatedList[current].date = event.target[0].value;
+    updatedList[current].date = event.target[0].value.slice(0, 10);
     updatedList[current].reps = event.target[2].value;
     props.onUpdate(updatedList);
     setShow(false);
