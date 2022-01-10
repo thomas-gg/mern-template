@@ -91,7 +91,7 @@ class App extends Component {
       })
       .catch((error) => {
         this.setState({
-          ErrorMessage: "The username has already been taken!",
+          ErrorMessage: error.response.data.error_message
         });
       });
   };
@@ -104,7 +104,6 @@ class App extends Component {
         password: password,
       })
       .then((response) => {
-        // console.log(response);
         if (response.data.success === true) {
           const user = response.data.user;
           const token = response.data.accessToken;
@@ -116,9 +115,8 @@ class App extends Component {
         }
       })
       .catch((error) => {
-        console.log(error.response.data.error_message);
         this.setState({
-          ErrorMessage: error.response.data.error_message,
+          ErrorMessage: error.response.data.error_message
         });
       });
   };
