@@ -115,7 +115,6 @@ router.post('/log/update', authenticate, async (req, res) => {
         });
     }
     catch (err) {
-        console.log(err);
         res.status(500).json({
             success: false
         });
@@ -146,7 +145,7 @@ router.delete('/log/delete', authenticate, async (req, res) => {
     catch (err) {
         res.status(400).json({
             success: false,
-            errorMessage: "An error has occurred",
+            errorMessage: "An error has occurred.",
             exercise: null
         })
     }
