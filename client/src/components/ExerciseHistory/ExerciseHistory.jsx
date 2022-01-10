@@ -67,7 +67,7 @@ export const ExerciseHistory = (props) => {
       )}
       {props.exerciseSelected && (
         <Button variant="primary" onClick={handleAdd}>
-          Add Excercise{" "}
+          Add Exercise{" "}
         </Button>
       )}{" "}
       {props.exerciseSelected && (
@@ -77,7 +77,7 @@ export const ExerciseHistory = (props) => {
       )}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add an Excercise</Modal.Title>
+          <Modal.Title>Add an Exercise</Modal.Title>
         </Modal.Header>{" "}
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
