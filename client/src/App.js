@@ -236,6 +236,7 @@ class App extends Component {
         data.datasets[1].data = [];
         data.datasets[2].data = [];
         data.datasets[3].data = [];
+        this.state.max = "";
         // console.log("reach here?");
         // console.log(response.data);
         // console.log(exercise);
