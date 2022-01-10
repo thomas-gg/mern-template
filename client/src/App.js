@@ -18,6 +18,7 @@ import { ExerciseHistory } from "./components/ExerciseHistory/ExerciseHistory";
 import { Navbar } from "react-bootstrap";
 import { MyNav } from "./components/navbar";
 import { ExcerciseHistoryList } from "./components/ExerciseHistory/ExcerciseHistoryList";
+import { converter } from "js-cookie";
 
 // VERY IMPORTANT FOR COOKIES
 axios.defaults.withCredentials = true;
@@ -40,16 +41,17 @@ class App extends Component {
       accessToken: "",
       graphData: {
         labels: [],
+        max : "",
         datasets: [
           {
-            label: "History",
+            label: "Weight",
             data: [],
             fill: true,
             backgroundColor: "rgba(75,192,192,0)",
             borderColor: "rgba(75,192,192,1)",
           },
           {
-            label: "Goal",
+            label: "1 RM Goal",
             data: [],
             fill: true,
             backgroundColor: "rgba(75,192,192,0)",
@@ -61,6 +63,13 @@ class App extends Component {
             fill: true,
             backgroundColor: "rgba(75,192,192,0)",
             borderColor: "rgba(70,255,70,1)",
+          },
+          {
+            label: "Predicted 1RM",
+            data: [],
+            fill: true,
+            backgroundColor: "rgba(75,192,192,0)",
+            borderColor: "rgba(252, 50, 229,1)",
           },
         ],
       },
@@ -122,7 +131,7 @@ class App extends Component {
   };
 
   logOut = () => {
-    axios.post(BaseURL + "/users/logout", {})
+    axios.post(BaseURL + "/users/logout", {});
     this.setState({
       IsLoggedIn: false,
       User: {},
@@ -152,6 +161,11 @@ class App extends Component {
         if (response.data.success === true) {
           this.handleSelect(this.state.CurrentExercise);
         }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status == 403) {
+          this.logOut();
+        }
       });
   };
 
@@ -161,14 +175,17 @@ class App extends Component {
     this.handleUpdate(this.state.excerciseList);
   };
 
-  formatDate = (date) => {
+  formatDate = (ogdate) => {
     var options = {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     };
-    return new Date(date).toLocaleDateString("en-US", options);
+    let datefixed = new Date(ogdate.toString().replace(/-/g, '\/').replace(/T.+/, ''));
+    //console.log(datefixed)
+    let dateformat = new Date(datefixed).toLocaleDateString("en-US", options);
+    return dateformat
   };
   getData = (exercise, token) => {
     axios
@@ -180,16 +197,17 @@ class App extends Component {
       .then((response) => {
         const data = {
           labels: [],
+          max : "",
           datasets: [
             {
-              label: "History",
+              label: "Weight",
               data: [],
               fill: true,
               backgroundColor: "rgba(75,192,192,0)",
               borderColor: "rgba(75,192,192,1)",
             },
             {
-              label: "Goal",
+              label: "1 RM Goal",
               data: [],
               fill: true,
               backgroundColor: "rgba(75,192,192,0)",
@@ -202,12 +220,21 @@ class App extends Component {
               backgroundColor: "rgba(75,192,192,0)",
               borderColor: "rgba(70,255,70,1)",
             },
+            {
+              label: "Predicted 1RM",
+              data: [],
+              fill: true,
+              backgroundColor: "rgba(75,192,192,0)",
+              borderColor: "rgba(252, 50, 229,1)",
+            },
           ],
         };
         let newExcerciseList = [];
         data.datasets[0].data = [];
         data.datasets[1].data = [];
         data.datasets[2].data = [];
+        data.datasets[3].data = [];
+        this.state.max = "";
         // console.log("reach here?");
         // console.log(response.data);
         // console.log(exercise);
@@ -224,14 +251,18 @@ class App extends Component {
 
           if (element.exerciseName === exercise) {
             newExcerciseGoal = element.exerciseGoal;
+            this.state.max = element.exercisePR.value
             // console.log("reach here?");
             //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
             element.exerciseHistory.forEach((pr) => {
-              //   console.log(pr.date);
-              data.labels.push(this.formatDate(pr.date.toString()));
+              //data.labels.push(this.formatDate(pr.date.toString()));
+              //console.log(pr.date)
+              data.labels.push(this.formatDate(pr.date));
               data.datasets[0].data.push(pr.value);
               data.datasets[1].data.push(element.exerciseGoal);
               data.datasets[2].data.push(pr.reps);
+              let predictedRM = pr.value/(1.0278-(.0278*pr.reps))
+              data.datasets[3].data.push(predictedRM)
               newExcerciseList.push(pr);
             });
             //pushing pr at end of list, instead print it somewhere else?
@@ -251,6 +282,9 @@ class App extends Component {
         });
       })
       .catch((error) => {
+        if (error.response && error.response.status == 403) {
+          this.logOut();
+        }
         console.log(error);
       });
   };
@@ -286,6 +320,9 @@ class App extends Component {
                   onUpdate={this.handleUpdate}
                   onChangeGoal={this.handleChangeGoal}
                   exerciseSelected={this.state.CurrentExercise !== ""}
+                  CurrentExercise = {this.state.CurrentExercise}
+                  max = {this.state.max}
+                  exerciseGoal = {this.state.excerciseGoal}
                 />
               </>
             ) : (

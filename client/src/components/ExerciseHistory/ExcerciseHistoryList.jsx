@@ -5,15 +5,16 @@ import Modal from "react-bootstrap/Modal";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 
-function formatDate(date) {
-  console.log(date);
+function formatDate(ogdate) {
   var options = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
-  return new Date(date).toLocaleDateString("en-US", options);
+  let datefixed = new Date(ogdate.toString().replace(/-/g, '\/').replace(/T.+/, ''));
+  let dateformat = new Date(datefixed).toLocaleDateString("en-US", options);
+  return dateformat
 }
 
 export const ExcerciseHistoryList = (props) => {

@@ -51,7 +51,7 @@ router.post('/log', authenticate, async (req, res) => {
     }
 });
 
-// TODO: update document route
+// Update document route
 router.post('/log/update', authenticate, async (req, res) => {
     try {
         const { user, exerciseName, exerciseHistory, exerciseGoal } = req.body;

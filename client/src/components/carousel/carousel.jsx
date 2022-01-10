@@ -32,7 +32,7 @@ export const MyCarousel = () => {
                 />
 
                 <Carousel.Caption>
-                    <h3>Work out with friends!</h3>
+                    <h3>COMING SOON-Work out with friends!</h3>
                     <p>Find out what gyms are open, and find friends to work out or compete with!</p>
                 </Carousel.Caption>
             </Carousel.Item>

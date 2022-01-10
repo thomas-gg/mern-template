@@ -12,8 +12,6 @@ const Home = (props) => {
         <header className="App-header">
           <h1 className="slogan">
             Get Lit and Get Fit!
-            <br />
-            (slogan needs work)
           </h1>
           <MyCarousel />
           <br />
