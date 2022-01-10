@@ -131,6 +131,7 @@ class App extends Component {
   //handle of updatigng excercise List
   handleUpdate = (excerciseList) => {
     console.log(excerciseList);
+    console.log(this.state.excerciseGoal);
 
     axios
       .post(BaseURL + "/exercises/log/update", {
@@ -204,6 +205,7 @@ class App extends Component {
         // console.log(response.data);
         // console.log(exercise);
         let newExcerciseGoal = 0;
+        // console.log(response.data);
         response.data.forEach((element) => {
           //let exercise = element.json()
           var options = {
@@ -213,9 +215,8 @@ class App extends Component {
             day: "numeric",
           };
 
-          newExcerciseGoal = element.exerciseGoal;
-
           if (element.exerciseName === exercise) {
+            newExcerciseGoal = element.exerciseGoal;
             // console.log("reach here?");
             //if picked exercise matches exercise from data, push date to labels, data to history, as well as goal
             element.exerciseHistory.forEach((pr) => {
@@ -235,6 +236,7 @@ class App extends Component {
             // console.log("marker2");
           }
         });
+        // console.log(newExcerciseGoal);
         this.setState({
           graphData: data,
           excerciseList: newExcerciseList,
