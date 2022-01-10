@@ -3,20 +3,6 @@ const router = express.Router();
 const Exercise = require('../models/exerciseModel');
 const authenticate = require('../middleware/authenticate.js')
 
-/* GET users listing. */
-router.get('/test', authenticate, async (req, res) => {
-    try {
-        const user = {
-            name: 'ACM Hack',
-            email: 'hack@acmucsd.org'
-        }
-        res.status(200).json({ user });
-    }
-    catch (err) {
-        res.status(500).send();
-    }
-});
-
 // Get exercise data
 router.get('/log', authenticate, async (req, res) => {
     try {
