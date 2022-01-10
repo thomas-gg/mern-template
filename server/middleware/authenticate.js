@@ -15,7 +15,9 @@ function verifyToken(req, res, next) {
         next();
     }
     catch (err) {
-        return res.sendStatus(403);
+        return res.sendStatus(403).json({
+            error_message: "Unauthorized, please log back in."
+        });
     }
 }
 
