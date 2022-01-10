@@ -92,15 +92,28 @@ router.post('/log/update', authenticate, async (req, res) => {
         // Check if new exercise
         const existingExercise = await Exercise.findOne(query);
         if (!existingExercise) {
-            const createExercise = new Exercise({
-                user: req.user,
-                exerciseName,
-                exercisePR,
-                exerciseHistory,
-                exerciseGoal
-            });
+            if (exerciseHistory.length == 0) {
+                const createExercise = new Exercise({
+                    user: req.user,
+                    exerciseName,
+                    exercisePR: {},
+                    exerciseHistory,
+                    exerciseGoal
+                });
 
-            const savedExercise = await createExercise.save();
+                const savedExercise = await createExercise.save();
+            }
+            else {
+                const createExercise = new Exercise({
+                    user: req.user,
+                    exerciseName,
+                    exercisePR,
+                    exerciseHistory,
+                    exerciseGoal
+                });
+
+                const savedExercise = await createExercise.save();
+            }
         }
         else {
             // Save the new data
